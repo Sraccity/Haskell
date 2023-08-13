@@ -1,5 +1,6 @@
 import Data.List
 import Formula
+import Debug.Trace
 
 unsatisfiable :: Formula -> Bool
 -- Keep evolving new generations and let them take part in the
@@ -29,8 +30,14 @@ evolve (old, young)
 
 resolvents :: Clause -> Clause -> [Clause]
 -- Find all possible resolvents of two clauses.
-resolvents c1 c2
-  = []
+resolvents clause1 clause2 =
+  sort [ resolve_on lit1 clause1 clause2
+  | lit1 <- clause1
+  , lit2 <- clause2
+  , lit1 == negate_literal lit2]
+
+
+
 
 resolve_on :: Literal -> Clause -> Clause -> Clause
 -- resolve_on lit c1 c2 assumes that lit is known to be in c1
