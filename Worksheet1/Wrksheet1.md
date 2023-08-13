@@ -33,3 +33,20 @@ Main> resolvents [Pos 'A', Neg 'B'] [Pos 'B', Pos 'C', Neg 'A']
 
 Main> resolvents [Pos 'A', Pos 'B'] [Pos 'A', Neg 'C']
 []
+
+# Task 3
+Now that you have finished these two tasks, you have a working resolution algorithm and you can use the unsatisfiable function to test the satisfiability of your formulas.
+
+However, often we would like to use the resolution technique to prove not just the satisfiability or unsatisfiability of a single propositional formula, but logical consequence relationships between two propositional formulas.
+
+Your final task for this section of the worksheet is to implement an additional function inside Main.hs to do just that. This function should be pretty simple, and should make use of the existing unsatisfiable function. For this to work, you'll need to copy over your solutions from the previous problems once again.
+
+Write a function entails which takes two Formulas f and g and returns True if and only if formula g is a logical consequence of f (in which case, we would say that f entails g). Don't forget a type signature!
+
+For example:
+
+Main> entails [[Pos 'Q', Neg 'P'], [Pos 'P']] [[Pos 'Q']]
+True
+
+Main> entails [[Pos 'Q', Neg 'P']] [[Pos 'P', Neg 'Q']]
+False
