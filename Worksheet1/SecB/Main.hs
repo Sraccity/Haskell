@@ -47,13 +47,14 @@ wang left (VAR x : right) reducedLeft reducedRight
 
 
 -- Base case:
-
+wang [] [] [] xs = False
 -- Eventually, there will be no non-reduced parts remaining on either
 -- the LHR or RHS of the sequent. In this case, the sequent is valid
 -- if and only if some propositional letter occurs on both
 -- `reducedLeft` and `reducedRight`.
-wang [] [] reducedLeft reducedRight
-  = True                                                 -- FIX THIS
+wang [] [] (x:reducedLeft) reducedRight
+  | x `elem` reducedRight = True
+  | otherwise              = wang [] [] reducedLeft reducedRight     -- FIX THIS
 
 
 -- Initial case:
