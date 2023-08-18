@@ -1,5 +1,5 @@
 import Exp
-
+import Debug.Trace
 -- ----------------------------------------------------------------------
 --
 -- Wang's algorithm for validity checking  (incomplete)
@@ -45,9 +45,34 @@ wang (VAR x : left) right reducedLeft reducedRight
 wang left (VAR x : right) reducedLeft reducedRight
   = wang left right reducedLeft (x : reducedRight)
 
+-- BIIM?
+wang (BIIM f g : left) right reducedLeft reducedRight
+    = trace ("BIIM left! " ++ show (BIIM f g)) $
+    wang (f : g : left) right reducedLeft reducedRight &&
+    wang left (g : f : right) reducedLeft reducedRight
+wang left (BIIM f g : right) reducedLeft reducedRight
+  = trace ("BIIM right!" ++ show (BIIM f g)) $
+    wang (f : left) (f : right) reducedLeft reducedRight  &&
+    wang (g : left) (f : right) reducedLeft reducedRight &&
+    wang (f : left) (g : right) reducedLeft reducedRight &&
+    wang (g : left) (g : right) reducedLeft reducedRight
+
+-- NEW recursive cases: implication
+
+-- We can rewrite f => g on the LHS as two sequents: one with f added
+-- to the RHS and one with g added to the LHS.
+wang (IMPL f g : left) right reducedLeft reducedRight
+  = wang left (f : right) reducedLeft reducedRight &&
+    wang (g : left) right reducedLeft reducedRight
+-- If f => g occurs on the RHS instead, we only require one new sequent:
+-- Simply move f over to the LHS and leave g on the RHS.
+wang left (IMPL f g : right) reducedLeft reducedRight
+  = wang (f : left) (g : right) reducedLeft reducedRight
+
 
 -- Base case:
 wang [] [] [] xs = False
+-- wang [] [] _ _ = False
 -- Eventually, there will be no non-reduced parts remaining on either
 -- the LHR or RHS of the sequent. In this case, the sequent is valid
 -- if and only if some propositional letter occurs on both
