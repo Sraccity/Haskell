@@ -54,7 +54,7 @@ wang [] [] [] xs = False
 -- `reducedLeft` and `reducedRight`.
 wang [] [] (x:reducedLeft) reducedRight
   | x `elem` reducedRight = True
-  | otherwise              = wang [] [] reducedLeft reducedRight     -- FIX THIS
+  | otherwise             = wang [] [] reducedLeft reducedRight     -- FIX THIS
 
 
 -- Initial case:

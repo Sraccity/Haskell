@@ -18,7 +18,7 @@ data Exp
   | OR Exp Exp         -- Disjunction
   | XOR Exp Exp        -- Exclusive or
   | BIIM Exp Exp       -- Biimplication
-  | IMPL Exp Exp       -- Only if (=>)
+  | IMPL Exp Exp       -- Only if (->)
   deriving (Eq, Show)
 
 -- ----------------------------------------------------------------------
@@ -33,8 +33,8 @@ data Token
   | AndToken           -- Conjunction (&)
   | OrToken            -- Disjunction (|)
   | XorToken           -- Exclusive or (<+>)
-  | BiimToken          -- Biimplication (<=>)
-  | ImplToken          -- Only if (=>)
+  | BiimToken          -- Biimplication (<->)
+  | ImplToken          -- Only if (->)
   | LeftParen          -- Left parenthesis
   | RightParen         -- Right parenthesis
   | Bad String         -- Ill-formed text
@@ -50,8 +50,8 @@ scan ('~':s)           = NegToken : scan s
 scan ('&':s)           = AndToken : scan s
 scan ('|':s)           = OrToken : scan s
 scan ('<':'+':'>':s)   = XorToken : scan s
-scan ('<':'=':'>':s)   = BiimToken : scan s
-scan ('=':'>':s)       = ImplToken : scan s
+scan ('<':'-':'>':s)   = BiimToken : scan s
+scan ('-':'>':s)       = ImplToken : scan s
 scan ('(':s)           = LeftParen : scan s
 scan (')':s)           = RightParen : scan s
 scan []                = []
@@ -71,8 +71,8 @@ scan s                 = Bad stuff : scan rest
 --       |  ( ~ exp )
 --       |  ( exp & exp )
 --       |  ( exp | exp )
---       |  ( exp => exp )
---       |  ( exp <=> exp )
+--       |  ( exp -> exp )
+--       |  ( exp <-> exp )
 --       |  ( exp <+> exp )
 --       |  ( exp )
 
