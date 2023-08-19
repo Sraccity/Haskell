@@ -61,3 +61,23 @@ True
 
 If you're up for an additional challenge, try to derive rewriting rules for the exclusive or connective and add these to the algorithm. This will extend your implementation of Wang's algorithm so that it is capable of handling any of the propositional formulas we will encounter in this subject.
 
+
+# Task 3 
+
+At this point, our implementation of Wang's algorithm provides a decision procedure for propositional validity. In this challenge, your task is to extend this solution to give us a decision procedure for propositional satisfiability.
+
+Like with resolution, the code required to achieve this will be trivial, now that we have access to a completed implementation of Wang's algorithm for checking validity. Begin by copying forward your solution to the previous exercise into the bottom of this version of Main.hs.
+
+First, think about how we might use an algorithm that checks for validity to check for satisfiability instead. When you are ready, add a new function sat :: Exp -> Bool, which takes an Exp as input and uses Wang's algorithm to check if the formula represented by this Exp is satisfiable.
+
+For example:
+```
+Main> sat (parse "P")
+True
+
+Main> sat (parse "(P & (~P))")
+False
+
+sat (parse "(P | (~P))")
+True
+```

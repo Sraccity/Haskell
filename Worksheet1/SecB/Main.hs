@@ -89,3 +89,13 @@ valid :: Exp -> Bool
 -- with the formula on its right hand side.
 valid f
   = wang [] [f] [] []
+
+
+sat :: Exp -> Bool
+-- Add your new function 'sat' here!
+-- sat [] = True
+-- sat f = not (valid f) && not (valid (NOT f))
+sat f = not (valid (NOT f))
+
+
+  
